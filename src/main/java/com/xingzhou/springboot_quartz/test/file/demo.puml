@@ -1,0 +1,17 @@
+@startuml
+start
+while (队列不为空 存活)
+  :queue.getMin();
+  if(executionTime <= currentTime) then(true)
+    :task.run();
+    if(task.period == 0)
+        :queue.removeMin();
+     else
+        :queue.rescheduleMin();
+    endif
+  else (false)
+    :queue.wait();
+  endif
+endwhile
+stop
+@enduml

@@ -1,0 +1,51 @@
+@startuml
+'https://plantuml.com/use-case-diagram
+
+@startuml
+|#lightYellow|用户|
+start
+:输入手机号;
+:选择话费套餐;
+|#lightBlue|充值APP|
+:生成，提交订单;
+|#lightgray|服务商|
+:生成订单;
+|充值APP|
+:展示支付方式;
+|用户|
+:选择支付方式;
+:支付套餐金额;
+|服务商|
+:支付结果通知;
+split
+:更新订单状态;
+|充值APP|
+:展示支付结果;
+|用户|
+:获取支付结果;
+kill
+split again
+ |服务商|
+  -[dashed]->
+ if(支付成功) then(成功)
+ :向运营商发起充值请求;
+ |#pink|运营商|
+ :接收到充值请求;
+ :执行充值;
+ :通知充值结果;
+ |服务商|
+ :更新订单状态;
+ |充值APP|
+ :展示充值结果;
+ |用户|
+ :获取充值结果;
+ floating note left #red:充值流程结束
+  end
+ else(失败)
+ |服务商|
+ :失败处理流程;
+ kill
+
+@enduml
+@enduml
+
