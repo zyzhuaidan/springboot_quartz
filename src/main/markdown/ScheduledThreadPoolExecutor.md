@@ -164,7 +164,44 @@ private Thread leader;
 private final Condition available = lock.newCondition();
 
 ```
-
+```java
+    public boolean offer(Runnable x) {
+        if (x == null)
+            throw new NullPointerException();
+        RunnableScheduledFuture<?> e = (RunnableScheduledFuture<?>)x;
+        // 使用lock保证并发操做安全
+        final ReentrantLock lock = this.lock;
+        lock.lock();
+        try {
+            int i = size;
+            // 若是要超过数组长度，就要进行数组扩容
+            if (i >= queue.length)
+                // 数组扩容
+                grow();
+            // 将队列中元素个数加一
+            size = i + 1;
+            // 若是是第一个元素，那么就不须要排序，直接赋值就好了
+            if (i == 0) {
+                queue[0] = e;
+                setIndex(e, 0);
+            } else {
+                // 调用siftUp方法，使插入的元素变得有序。
+                siftUp(i, e);
+            }
+            // 表示新插入的元素是队列头，更换了队列头，
+            // 那么就要唤醒正在等待获取任务的线程。
+            if (queue[0] == e) {
+                leader = null;
+                // 唤醒正在等待等待获取任务的线程
+                available.signal();
+            }
+        } finally {
+            lock.unlock();
+        }
+        return true;
+    }
+    
+```
 
 
 ```java

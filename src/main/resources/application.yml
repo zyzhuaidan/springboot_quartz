@@ -1,0 +1,9 @@
+#spring:
+#  quartz:
+#    # 将任务等保存化到数据库
+#    job-store-type: jdbc  #默认是memory
+#    properties:
+#      org:
+#        quartz:
+#          jobStore:
+#            driverDelegateClass: org.quartz.impl.jdbcjobstore.StdJDBCDelegate

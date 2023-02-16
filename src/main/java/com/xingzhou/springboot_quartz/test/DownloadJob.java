@@ -1,12 +1,11 @@
 package com.xingzhou.springboot_quartz.test;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.springframework.scheduling.quartz.QuartzJobBean;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 public class DownloadJob extends QuartzJobBean {
     @Override
@@ -15,4 +14,3 @@ public class DownloadJob extends QuartzJobBean {
         System.out.println(time + "===>...");
     }
 }
-

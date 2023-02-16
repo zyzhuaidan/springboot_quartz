@@ -7,7 +7,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class SpringbootQuartzApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(SpringbootQuartzApplication.class, args);
+        try {
+            SpringApplication.run(SpringbootQuartzApplication.class, args);
+        }catch (Exception e){
+            System.out.println(e);
+        }
     }
 
 }
